@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<a class="btn btn-link p-0 mb-3" href="{{ url_for('index') }}">← Назад к каталогу</a>
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title">{{ product.name }}</h2>
+    <p class="text-muted">{{ product.category }}</p>
+    <p>{{ product.description }}</p>
+    <p class="h5 mb-3">{{ product.price }} грн</p>
+    <a class="btn btn-success" href="{{ url_for('add_to_cart', product_id=product.id) }}">Добавить в корзину</a>
+  </div>
+</div>
+{% endblock %}

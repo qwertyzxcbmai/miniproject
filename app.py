@@ -1,0 +1,58 @@
+from flask import Flask, render_template, redirect, url_for, session
+from flask_sqlalchemy import SQLAlchemy
+from models import db, Product
+
+app = Flask(__name__)
+app.config["SECRET_KEY"] = "supesecret"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+db.init_app(app)
+
+@app.route("/")
+def index():
+    products = Product.query.order_by(Product.id.desc()).all()
+    return render_template("index.html", products=products)
+
+@app.route("/product/<int:product_id>")
+def product_detail(product_id: int):
+    product = Product.query.get_or_404(product_id)
+    return render_template("product.html", product=product)
+
+@app.route("/add_to_cart/<int:product_id>")
+def add_to_cart(product_id: int):
+    cart = session.get("cart", [])
+    cart.append(product_id)
+    session["cart"] = cart
+    return redirect(url_for("cart"))
+
+@app.route("/cart")
+def cart():
+    cart_ids = session.get("cart", [])
+    items = Product.query.filter(Product.id.in_(cart_ids)).all() if cart_ids else []
+    return render_template("cart.html", items=items)
+
+@app.route("/checkout", methods=["POST"])
+def checkout():
+    session["cart"] = []
+    return render_template("order_success.html")
+
+def seed_data():
+    if Product.query.first():
+        return
+    products = [
+        Product(name="Увлажняющий крем", category="Крем", price=350,
+                description="Питает и интенсивно увлажняет кожу лица."),
+        Product(name="Очищающая пенка", category="Очищение", price=280,
+                description="Мягко удаляет загрязнения и не сушит кожу."),
+        Product(name="Тоник с ромашкой", category="Тоник", price=220,
+                description="Успокаивает, снимает покраснения и освежает."),
+        Product(name="Сыворотка с витамином C", category="Сыворотка", price=450,
+                description="Выравнивает тон и придаёт сияние."),
+    ]
+    db.session.add_all(products)
+    db.session.commit()
+
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+        seed_data()
+    app.run(debug=True)

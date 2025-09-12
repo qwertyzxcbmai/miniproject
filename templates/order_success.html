@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="alert alert-success">
+  <h4 class="alert-heading">Заказ оформлен!</h4>
+  <p>Спасибо за покупку 🎉 Это демо, поэтому оплату и доставку мы не проводим.</p>
+</div>
+<a class="btn btn-primary" href="{{ url_for('index') }}">Вернуться в магазин</a>
+{% endblock %}
