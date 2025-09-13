@@ -1,0 +1,82 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Montserrat', sans-serif;
+}
+body {
+color: #333;
+line-height: 1.6;
+}
+
+.about-section {
+max-width: 1200px;
+margin: 50px auto;
+padding: 0 20px;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 50px;
+color: #A7B5FC;
+}
+.about-text {
+flex: 1 1 450px;
+color: #A7B5FC;
+}
+.about-text h1 {
+font-size: 36px;
+color: #252222;
+margin-bottom: 20px;
+}
+.about-text p {
+font-size: 16px;
+color: #252222;
+margin-bottom: 15px;
+}
+
+.about-image {
+flex: 1 1 450px;
+}
+.about-image img {
+width: 100%;
+border-radius: 20px;
+object-fit: cover;
+box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.welcome-section {
+max-width: 1000px;
+margin: 80px auto;
+padding: 20px 10px;
+text-align: center;
+}
+
+.welcome-section .h2 {
+font-size: 28px;
+font-weight: 400;
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 15px;
+color: #252222;
+}
+
+.welcome-section p {
+font-size: 16px;
+font-weight: 300;
+line-height: 1.8;
+color: #252222;
+}
+.welcome-image{
+border-radius: 20px;
+}
+.footer {
+background-color: #2a2a2a;
+color: white;
+text-align: center;
+padding: 30px 0;
+margin-top: 80px;
+}
+
+.h2{
+color: #252222;
+}
