@@ -1,4 +1,225 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNOR - Premium Skincare</title>
+    <meta name="description" content="Discover LUNOR's premium skincare products with natural ingredients and exclusive offers.">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/5NYKSd5m/2025-08-18-132401599.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <style>
+        #toTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #A7B5FC;
+            color: white;
+            border-radius: 50%;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: none;
+            z-index: 1000;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        #toTop:hover {
+            background: #8EA0FB;
+        }
+
+        #cookieBanner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #222;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        #cookieBanner button {
+            padding: 8px 16px;
+            background: white;
+            color: #000;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        #cookieBanner button:hover {
+            background: #f0f0f0;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9em;
+            margin-left: 5px;
+        }
+
+        .product-rating {
+            margin: 8px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .product-rating .fas.fa-star {
+            color: #ffc107;
+        }
+
+        .product-brand {
+            color: #6b7280;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<div class="banner">
+    Free shipping on orders over $50 • Delivered in 2-5 days
+</div>
+
+{% include 'header.html' %}
+
+<main>
+    <section class="promo-section">
+        <img src="https://i.postimg.cc/vBFXbbJb/a5eb39288b16f467b571e2b95afa1216.jpg"
+             alt="LUNOR Special Offer - Sign up and save 10% on your first order"
+             class="promo-image"
+             loading="lazy">
+
+        <div class="promo-content">
+            <h2 class="promo-title">Sign Up & Save 10%</h2>
+            <p class="promo-text">
+                Register now and enjoy an <strong>exclusive 10% off</strong> your first order.
+                Join the LUNOR community today!
+            </p>
+            <a href="/register" class="promo-button">Register Now</a>
+        </div>
+    </section>
+
+    <section class="products-section container">
+        <h2 class="section-title">Top Picks</h2>
+        <div class="products-grid">
+            {% for product in herbivore_products %}
+            <article class="product-card">
+                <img src="{{ product.image_url }}"
+                     alt="{{ product.product_name }}"
+                     class="product-image"
+                     loading="lazy">
+                <div class="product-info">
+                    <h3 class="product-title">{{ product.product_name }}</h3>
+                    <p class="product-brand">Herbivore Botanicals</p>
+                    <p class="product-price">
+                        {% if product.sale_price_usd and product.sale_price_usd != 'None' and product.sale_price_usd != '' %}
+                        ${{ product.sale_price_usd }} <span class="original-price">${{ product.price_usd }}</span>
+                        {% else %}
+                        ${{ product.price_usd }}
+                        {% endif %}
+                    </p>
+                    <p class="product-rating">
+                        {% if product.rating %}
+                        {% for i in range(5) %}
+                        {% if i < product.rating|int %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                        ({{ product.reviews or 0 }} reviews)
+                        {% else %}
+                        <span>No ratings yet</span>
+                        {% endif %}
+                    </p>
+                    <a href="/product/{{ product.product_id }}" class="product-btn">View Product</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+{% include 'footer.html' %}
+
+<button id="toTop" aria-label="Back to top">↑</button>
+
+<div id="cookieBanner" role="dialog" aria-label="Cookie consent">
+    <span>We use cookies to improve your experience. By continuing to browse, you agree to our use of cookies. Please read Privacy Policy firstly</span>
+    <button onclick="acceptCookies()">Accept</button>
+    <a href="/privacy" class="cookie-link">Read</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Back to top button
+        const toTopBtn = document.getElementById('toTop');
+
+        function toggleTopButton() {
+            toTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+        }
+
+        window.addEventListener('scroll', toggleTopButton);
+        toggleTopButton();
+
+        toTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Cookie banner
+        if (localStorage.getItem('cookiesAccepted')) {
+            document.getElementById('cookieBanner').style.display = 'none';
+        }
+    });
+
+    function acceptCookies() {
+        const banner = document.getElementById('cookieBanner');
+        if (banner) {
+            banner.style.display = 'none';
+            localStorage.setItem('cookiesAccepted', 'true');
+            console.log('Cookies accepted - analytics initialized');
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
+<!----{% extends "base.html" %}
+Тут твой код на всякий случай 
+
 {% block content %}
 <h2 class="mb-3">Каталог</h2>
 <div class="row g-3">
@@ -21,4 +242,4 @@
   </div>
   {% endfor %}
 </div>
-{% endblock %}
+{% endblock %} ---->
