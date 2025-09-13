@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Returns Policy</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/returns.css') }}">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/5NYKSd5m/2025-08-18-132401599.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+#toTop {
+position: fixed;
+bottom: 30px;
+right: 30px;
+background: #A7B5FC;
+color: white;
+border: none;
+border-radius: 50%;
+padding: 12px 16px;
+cursor: pointer;
+display: none;
+z-index: 100;
+}
+
+#toTop:hover {
+background: #8EA0FB;
+}
+
+    </style>
+</head>
+<body>
+<div class="banner">
+    Free shipping on orders over $50 • Delivered in 2-5 days
+</div>
+
+{% include 'header.html' %}
+    <div class="container">
+        <header>
+            <h1>Returns Policy</h1>
+            <p class="last-updated">Last updated: September 13, 2024</p>
+        </header>
+
+        <div class="navigation">
+            <a href="/privacy" class="nav-link">Privacy</a>
+            <a href="/accessibility" class="nav-link">Accessibility</a>
+            <a href="/faqs" class="nav-link">FAQs</a>
+        </div>
+
+        <section>
+            <p>We want you to be completely satisfied with your purchase. This page outlines our return rules and procedures.</p>
+
+            <h2>Return Policy</h2>
+            <p>You may return most items within 30 days of delivery for a full refund. Items must be in original condition, unused, and in original packaging.</p>
+
+            <h2>Non-Returnable Items</h2>
+            <p>Certain items cannot be returned for hygiene reasons or due to their nature:</p>
+            <ul>
+                <li>Perishable goods</li>
+                <li>Personalized or custom-made products</li>
+                <li>Personal care items</li>
+                <li>Gift cards</li>
+                <li>Products that have been opened or used</li>
+            </ul>
+
+            <h2>Return Process</h2>
+            <p>To initiate a return, please follow these steps:</p>
+            <ol>
+                <li>Log into your account and go to "Order History"</li>
+                <li>Select the items you wish to return</li>
+                <li>Provide the reason for return</li>
+                <li>Securely pack the item and attach the return label</li>
+                <li>Ship the package using your preferred delivery service</li>
+            </ol>
+
+            <div class="note">
+                <p><strong>Note:</strong> Original shipping costs are non-refundable. If you are returning an item due to our error or a defective product, we will cover return shipping costs.</p>
+            </div>
+
+            <h2>Refunds</h2>
+            <p>After receiving and inspecting your return, we will send you an email notification. We will also notify you of the approval or rejection of your refund.</p>
+            <p>If approved, your refund request will be processed and the amount will be automatically credited to your original payment method within 7-14 business days..</p>
+
+            <h2>Return Timeframes by Product Type</h2>
+            <table>
+                <tr>
+                    <th>Product Category</th>
+                    <th>Return Period</th>
+                    <th>Condition</th>
+                </tr>
+                <tr>
+                    <td>Accessories</td>
+                    <td>20-30 days</td>
+                    <td>Unworn, tags attached</td>
+                </tr>
+                <tr>
+                    <td>Cosmetic products</td>
+                    <td>20 days</td>
+                    <td>Original packaging, all accessories included</td>
+                </tr>
+                <tr>
+            </table>
+            <div class="note">
+                <h1 style="color:#A7B5FC;font-weight: bold; font-size: 30px;">Gift card</h1>
+                <p><strong>Note:</strong> Original shipping costs are non-refundable. If you are returning an item due to our error or a defective product, we will cover return shipping costs.</p>
+            </div>
+
+            <h2>Exchanges</h2>
+            <p>We only replace items if they are defective or damaged. If you need to exchange it for the same item, contact us at lunor_returns@example.com and include your order number.</p>
+
+            <h2>Contact Us</h2>
+            <p>If you have questions about our return policy, please contact us:</p>
+            <p>Email: lunor_returns@example.com</p>
+            <p>+1 (555) 123-4567</p>
+            <p>Customer service hours: Monday to Friday from 9:00 a.m. to 9:00 p.m., Saturday and Sunday from 11:00 a.m. to 10:00 p.m.</p>
+            <p style="color:#A7B5FC;">Thank you for choosing Lunor</p><i style="color:#A7B5FC;" class="fa-jelly fa-regular fa-face-smile"></i>
+        </section>
+    </div>
+    {% include 'footer.html' %}
+
+
+    <button id="toTop">↑</button>
+
+    <script>
+        const btn = document.getElementById("toTop");
+
+        window.addEventListener("scroll", () => {
+            btn.style.display = window.scrollY > 300 ? "block" : "none";
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>
