@@ -21,13 +21,17 @@ from fastapi import Form
 from sqlalchemy import create_engine, text
 from fastapi import HTTPException
 from typing import Optional
-
+#========================================================
 app = FastAPI(title="LUNOR")
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "supesecret"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db.init_app(app)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
+templates = Jinja2Templates(directory="templates")
+
+#================================================================
 @app.route("/")
 def index():
     products = Product.query.order_by(Product.id.desc()).all()
