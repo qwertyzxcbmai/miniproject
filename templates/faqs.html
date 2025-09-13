@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/faqs.css') }}">
+    <style>
+        #toTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #A7B5FC;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: none;
+            z-index: 100;
+        }
+
+        #toTop:hover {
+            background: #8EA0FB;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="banner">
+    Free shipping on orders over $50 • Delivered in 2-5 days
+</div>
+{% include 'header.html' %}
+
+<div class="container">
+    <header>
+        <h1>Frequently Asked Questions</h1>
+        <p class="last-updated">Last update: September 13, 2024</p>
+    </header>
+    <div class="navigation">
+        <a href="/accessibility" class="nav-link">Accessibility</a>
+        <a href="/faqs" class="nav-link">FAQs</a>
+        <a href="/returns" class="nav-link">Returns</a>
+    </div>
+
+    <h2 class="category-title"> Ordering</h2>
+    <div class="question">
+        <h3 class="question-title">How do I place an order on the website?</h3>
+        <p>To place an order, simply browse our products, add items to your cart, and proceed to checkout. You'll need
+            to provide your shipping information and payment details to complete your purchase.</p>
+    </div>
+
+    <div class="question">
+        <h3 class="question-title">What should I do if I made a mistake in the delivery address?</h3>
+        <p>Please contact us immediately if you've entered an incorrect address. We can update the delivery information
+            if the order hasn't been shipped yet.</p>
+    </div>
+
+    <h2 class="category-title"> Delivery</h2>
+    <div class="question">
+        <h3 class="question-title">To which regions is delivery available?</h3>
+        <p>We deliver to all 50 US states and most European countries. International shipping is available to select
+            countries—check our shipping information page for details.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">How much does delivery cost?</h3>
+        <p>Standard shipping is $4.99 for orders under $50. We offer free shipping on all orders over $50. Express
+            shipping options are available at checkout for an additional fee.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">How long does delivery take?</h3>
+        <p>Standard delivery takes 3-5 business days within the US and 5-10 business days for international orders.
+            Express shipping (2-3 business days) is available for an additional charge.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">Do you offer pickup options?</h3>
+        <p>Currently, we only offer delivery services. We do not have physical stores for pickup, but we're exploring
+            this option for the future.</p>
+    </div>
+
+    <h2 class="category-title"> Payment</h2>
+    <div class="question">
+        <h3 class="question-title">What payment methods do you accept?</h3>
+        <p>We accept all major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, and Google Pay.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">Is payment on your website secure?</h3>
+        <p>Yes, we use industry-standard SSL encryption to protect your payment information. We never store your
+            complete credit card details on our servers.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">Can I pay for my order upon delivery?</h3>
+        <p>We currently only accept online payments. All orders must be paid for at the time of purchase.</p>
+    </div>
+
+    <h2 class="category-title"> Products</h2>
+    <div class="question">
+        <h3 class="question-title">Is the cosmetics original and authentic?</h3>
+        <p>Yes, we guarantee that all our products are 100% authentic, sourced directly from brands or authorized
+            distributors.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">How can I check a product's expiration date?</h3>
+        <p>Expiration dates are printed on product packaging. If you have concerns about a specific product, our
+            customer service team can provide batch code information to verify freshness.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">What should I do if I have an allergic reaction to a product?</h3>
+        <p>Discontinue use immediately and consult a healthcare professional if needed. We accept returns of products
+            that cause allergic reactions within 30 days of purchase.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">Do you offer samples or mini versions of products?</h3>
+        <p>Yes, we offer sample sizes of many popular products. You can also purchase our sample kits which include
+            multiple mini products to try.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">How can I determine which product is right for me?</h3>
+        <p>Use our "Product Finder" tool on the website, or contact our beauty advisors who can provide personalized
+            recommendations based on your skin type and concerns.</p>
+    </div>
+
+    <h2 class="category-title"> Returns & Exchanges</h2>
+    <div class="question">
+        <h3 class="question-title">Can I return or exchange cosmetics?</h3>
+        <p>Yes, we accept returns and exchanges within 30 days of purchase for unopened products. Gently used products
+            may be eligible for store credit.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">What should I do if I receive a damaged product?</h3>
+        <p>Please contact us within 48 hours of delivery with photos of the damaged product and packaging. We'll send a
+            replacement or issue a refund.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">How long does it take to process a refund?</h3>
+        <p>Refunds are processed within 5-7 business days after we receive your return. The time it takes for the refund
+            to appear in your account depends on your payment method.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">Is return shipping free?</h3>
+        <p>We provide free return shipping for damaged or incorrect items. For other returns, customers are responsible
+            for return shipping costs.</p>
+    </div>
+
+    <h2 class="category-title"> Promotions & Gift Cards</h2>
+    <div class="question">
+        <h3 class="question-title">Do you offer discounts for first-time purchases?</h3>
+        <p>Yes, new customers receive 15% off their first order when they sign up for our newsletter.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">How do I use a promo code?</h3>
+        <p>Enter your promo code in the designated box at checkout and click "Apply" to see your discount reflected in
+            the order total.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">Can I purchase gift cards?</h3>
+        <p>Yes, we offer electronic gift cards in various denominations that can be sent directly to the recipient's
+            email.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">Can I use multiple discounts simultaneously?</h3>
+        <p>Only one promo code can be applied per order. However, promo codes can be combined with automatic quantity
+            discounts and sale prices.</p>
+    </div>
+
+    <h2 class="category-title"> Care & Advice</h2>
+    <div class="question">
+        <h3 class="question-title">How should I store my cosmetics properly?</h3>
+        <p>Store cosmetics in a cool, dry place away from direct sunlight. Refrigeration can extend the life of certain
+            natural products—check individual product recommendations.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">What is the shelf life of cosmetics after opening?</h3>
+        <p>This varies by product type. Most skincare products are best used within 6-12 months after opening, while
+            mascara should be replaced every 3-4 months. Look for the Period After Opening (PAO) symbol on
+            packaging.</p>
+    </div>
+    <div class="question">
+        <h3 class="question-title">What's the difference between organic and conventional products?</h3>
+        <p>Organic products are made with ingredients grown without synthetic pesticides and fertilizers. They often
+            contain fewer potentially irritating chemicals, but both types can be effective depending on your skin's
+            needs.</p>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+<button id="toTop">↑</button>
+
+<script>
+    const btn = document.getElementById("toTop");
+
+    window.addEventListener("scroll", () => {
+        btn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+</script>
+</body>
+</html>
