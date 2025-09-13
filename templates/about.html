@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - LUNOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/about.css') }}">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/5NYKSd5m/2025-08-18-132401599.png">
+    <style>
+#toTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #A7B5FC;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 12px 16px;
+  cursor: pointer;
+  display: none;
+}
+#toTop:hover {
+  background: #8EA0FB;
+}
+    </style>
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<section class="welcome-section">
+    <div class="welcome-text">
+        <p class="h2">about us</p>
+        <p>Welcome to LUNOR, where nature’s finest ingredients inspire our carefully crafted formulas designed to
+            restore, protect, and illuminate your skin, body, and senses.</p>
+        <div class="welcome-image">
+            <img src="https://i.postimg.cc/sgyYkqzZ/2025-08-19-135710931.png">
+        </div>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-text">
+        <h1>Inside LUNOR</h1>
+        <p>We're so excited to tell you about the luxurious self-care essentials from LUNOR.
+            These products are like love letters to the radiant self you may have momentarily forgotten</p>
+        <p>We meticulously hand-blend our products from the finest botanicals. Each bottle and jar is designed to
+            reflect the effortless brilliance you embody. Every tincture, balm, and elixir is like a little magic
+            potion, each one with the power to make you feel better.</p>
+        <p>And every time you use one, it's like you're giving yourself a big hug, because they really do work! We draw
+            on the wisdom of modern science to bring out the best in nature, creating beauty rituals that will make your
+            skin and hair shine and make you feel your best, inside and out. We've created each product to be a
+            thoughtful, gentle celebration, with smooth, soothing textures and light scents.</p>
+        <p> We designed them to enhance well-being and make it the best part of your day.</p>
+    </div>
+    <div class="about-image">
+        <img src="https://i.postimg.cc/Yqy3jr1Q/2025-08-18-195638872.png" alt="LUNOR">
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-image">
+        <img src="https://i.postimg.cc/G3sBCbX4/005d9c58195c8d750a21bb031a316671.jpg" alt="LUNOR гмш">
+    </div>
+    <div class="about-text">
+        <h1>Where Beauty Begins</h1>
+        <p>Every product is crafted with a touch of magic. Deep in our secret atelier, tiny artisans — we like to call
+            them the fairies of beauty — delicately mix the finest ingredients, infusing each formula with care, energy,
+            and a whisper of nature’s charm.</p>
+        <p>From the softest creams to aromatic oils, every bottle carries a story. The fairies ensure that each product
+            nourishes, refreshes, and inspires, turning everyday rituals into extraordinary moments.</p>
+        <p>Our promise is to combine science, artistry, and a sprinkle of enchantment, creating skincare and haircare
+            treasures that are as effective as they are magical. With LUNOR, beauty is not just seen — it is felt,
+            experienced, and celebrated.</p>
+    </div>
+</section>
+
+
+<section class="about-section">
+    <div class="about-text">
+        <h1>Get in Touch</h1>
+        <p>We'd absolutely love to hear from you! If you have any questions, comments, or just want to say hello, our
+            team is here for you.⇣</p>
+        <h2>Email</h2>
+        <p>lunor@gmail.com</p>
+        <h2>Phone</h2>
+        <p>+1 (555) 123-4567</p>
+        <h2>Address</h2>
+        <p> 45 Bloom Avenue, Los Angeles, CA 90028, USA</p>
+        <div class="contact-item">
+            <h2>Hours</h2>
+            <p>Monday-Friday: 9AM-6PM<br>Saturday: 10AM-4PM<br>Sunday: Closed</p>
+        </div>
+    <p>Follow us on social media for skincare tips, new product launches, and exclusive offers!</p>
+    </div>
+</section>
+{% include 'footer.html' %}
+
+<button id="toTop">↑</button>
+
+<script>
+const btn = document.getElementById("toTop");
+
+window.addEventListener("scroll", () => {
+btn.style.display = window.scrollY > 300 ? "block" : "none";
+});
+
+btn.addEventListener("click", () => {
+window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+
+</body>
+</html>
