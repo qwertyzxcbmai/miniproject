@@ -75,6 +75,45 @@ def seed_data():
     ]
     db.session.add_all(products)
     db.session.commit()
+#============mine=============
+@app.get("/about", response_class=HTMLResponse)
+async def about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
+    
+@app.get("/logout")
+def logout():
+    response = RedirectResponse(url="/")
+    response.delete_cookie("token")
+    return response
+
+@app.get("/privacy", response_class=HTMLResponse)
+def privacy(request: Request):
+    return templates.TemplateResponse("privacy.html", {"request": request}, status_code=200)
+
+
+@app.get("/accessibility", response_class=HTMLResponse)
+def accessibility(request: Request):
+    return templates.TemplateResponse("accessibility.html", {"request": request})
+
+
+@app.get("/faqs", response_class=HTMLResponse)
+def accessibility(request: Request):
+    return templates.TemplateResponse("faqs.html", {"request": request})
+
+
+@app.get("/returns", response_class=HTMLResponse)
+def accessibility(request: Request):
+    return templates.TemplateResponse("returns.html", {"request": request})
+
+@app.get("/account", response_class=HTMLResponse)
+def account(request: Request, username: Optional[str] = Depends(get_current_user_from_cookie)):
+    if not username:
+        return RedirectResponse("/login?error=not_logged_in")
+    return templates.TemplateResponse("account.html", {"request": request, "username": username})
+
+
+
+
 
 if __name__ == "__main__":
     with app.app_context():
