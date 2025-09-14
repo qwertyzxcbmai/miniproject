@@ -158,7 +158,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Filter functionality
             const searchFilter = document.getElementById('searchFilter');
             const categoryFilter = document.getElementById('categoryFilter');
             const sortFilter = document.getElementById('sortFilter');
@@ -176,13 +175,10 @@
                     const productCategory = card.dataset.category;
                     const productPrice = parseFloat(card.dataset.price);
 
-                    // Check search
                     const matchesSearch = productName.includes(searchText);
 
-                    // Check category
                     const matchesCategory = !category || productCategory === category;
 
-                    // Check price range
                     let matchesPrice = true;
                     if (priceRange) {
                         if (priceRange === '0-25') matchesPrice = productPrice <= 25;
@@ -217,20 +213,20 @@
                     }
                 });
 
-                // Hide all products
+
                 productCards.forEach(card => card.style.display = 'none');
 
-                // Show filtered products
+
                 filteredProducts.forEach(card => card.style.display = 'block');
             }
 
-            // Add event listeners
+
             searchFilter.addEventListener('input', filterProducts);
             categoryFilter.addEventListener('change', filterProducts);
             sortFilter.addEventListener('change', filterProducts);
             priceFilter.addEventListener('change', filterProducts);
 
-            // Add to cart functionality
+
             document.querySelectorAll('.add-to-cart').forEach(button => {
                 button.addEventListener('click', function() {
                     const productId = this.dataset.productId;
@@ -253,7 +249,6 @@
                 });
             });
 
-            // Header search
             const headerSearch = document.getElementById('searchInput');
             headerSearch.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
@@ -265,4 +260,5 @@
         });
     </script>
 </body>
+
 </html>
