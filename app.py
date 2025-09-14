@@ -342,6 +342,28 @@ async def product_detail(
         "username": username,
         "product": product
     })
+#+=========== search ====================
+@app.get("/search_products")
+async def search_products(request: Request, q: str = ""):
+    if not q or len(q) < 2:
+        return []
+
+    try:
+        with skincare_engine.connect() as connection:
+            query = text("""
+                SELECT product_id, product_name, brand_name, image_url
+                FROM products 
+                WHERE product_name LIKE :query OR brand_name LIKE :query
+                ORDER BY rating DESC, reviews DESC
+                LIMIT 5
+            """)
+            result = connection.execute(query, {"query": f"%{q}%"})
+            products = [dict(row._mapping) for row in result]
+            return products
+    except Exception as e:
+        print(f"Error searching products: {e}")
+        return []
+        
 
 
 if __name__ == "__main__":
