@@ -22,7 +22,7 @@ It provides features such as product listings, user registration / login, accoun
 
 ---
 
-## 🚀 Features
+## Features
 
 - User registration and login with password hashing  
 - JWT-token authentication plus cookie-based session management  
@@ -33,7 +33,7 @@ It provides features such as product listings, user registration / login, accoun
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Backend**: FastAPI  
 - **Templates / Frontend**: Jinja2  
@@ -44,7 +44,7 @@ It provides features such as product listings, user registration / login, accoun
 
 ---
 
-## 🧰 Installation
+## Installation
 
 1. Clone the repo:
    ```bash
