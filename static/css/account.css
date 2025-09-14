@@ -1,0 +1,132 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+font-size: 15px;
+background: #fff;
+color: #222;
+line-height: 1.6;
+margin: 0;
+padding: 0;
+}
+
+.container {
+max-width: 800px;
+margin: 2.5rem auto;
+padding: 0 1.25rem;
+}
+
+.pg-head {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 2.5rem;
+padding-bottom: 1.25rem;
+border-bottom: 1px solid #eee;
+}
+
+.page-title {
+font-size: 1.75rem;
+font-weight: 500;
+color: #A7B5FC;
+margin: 0;
+}
+
+.btn {
+display: inline-block;
+padding: 0.625rem 1.25rem;
+border: 1px solid #000;
+text-decoration: none;
+font-size: 0.875rem;
+font-weight: 500;
+border-radius: 4px;
+transition: all 0.2s ease;
+}
+
+.btn--primary {
+background: #000;
+color: #fff;
+}
+
+.btn--primary:hover {
+background: #333;
+border-color: #333;
+}
+
+.btn--ghost {
+background: transparent;
+color: #000;
+}
+
+.btn--ghost:hover {
+background: #f5f5f5;
+}
+
+.section {
+margin-bottom: 2.5rem;
+padding-top: 1.5rem;
+border-top: 1px solid #eee;
+}
+
+.section:first-of-type {
+border-top: none;
+padding-top: 0;
+}
+
+.section-title {
+font-size: 1.25rem;
+font-weight: 500;
+margin-bottom: 1rem;
+color: #333;
+}
+
+.welcome-message {
+font-size: 1.1rem;
+margin-bottom: 1.5rem;
+}
+
+.profile-info {
+display: grid;
+gap: 0.75rem;
+margin-bottom: 1.5rem;
+}
+
+.profile-info p {
+margin: 0;
+padding: 0.5rem 0;
+border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-info strong {
+color: #333;
+min-width: 100px;
+display: inline-block;
+}
+
+.no-data {
+color: #666;
+font-style: italic;
+margin: 1rem 0;
+}
+
+.link {
+display: inline-block;
+font-size: 0.875rem;
+text-decoration: underline;
+color: #000;
+margin-top: 0.5rem;
+transition: color 0.2s ease;
+}
+
+.link:hover {
+color: #A7B5FC;
+}
+
+.coming-soon {
+color: #666;
+font-style: italic;
+}

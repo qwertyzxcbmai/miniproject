@@ -1,0 +1,154 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+background: #fafafa;
+color: #222;
+line-height: 1.6;
+min-height: 100vh;
+}
+
+.main-container {
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: calc(100vh - 80px);
+padding: 2rem 1.25rem;
+}
+
+.container {
+width: 100%;
+max-width: 28rem;
+}
+
+.box {
+background: white;
+padding: 2.5rem 2rem;
+border-radius: 4px;
+box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-header {
+text-align: center;
+margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+font-weight: 500;
+font-size: 1.75rem;
+margin-bottom: 0.75rem;
+color: #000;
+}
+
+.auth-header p {
+font-size: 0.875rem;
+color: #666;
+line-height: 1.5;
+}
+
+.auth-header strong {
+color: #000;
+font-weight: 600;
+}
+
+.form-group {
+margin-bottom: 1.25rem;
+}
+
+.form-group label {
+display: block;
+font-size: 0.75rem;
+font-weight: 500;
+margin-bottom: 0.5rem;
+color: #333;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+width: 100%;
+padding: 0.875rem 1rem;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 0.875rem;
+background: white;
+transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+outline: none;
+border-color: #000;
+box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.password-group {
+position: relative;
+}
+
+.password-toggle {
+position: absolute;
+right: 1rem;
+top: 2.5rem;
+transform: translateY(-50%);
+cursor: pointer;
+color: #999;
+font-size: 0.875rem;
+background: none;
+border: none;
+padding: 0.25rem;
+}
+
+.password-toggle:hover {
+color: #000;
+}
+
+.auth-btn {
+width: 100%;
+padding: 0.875rem;
+background: #000;
+color: white;
+border: 1px solid #000;
+border-radius: 4px;
+font-size: 0.8125rem;
+font-weight: 500;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+cursor: pointer;
+transition: all 0.2s ease;
+margin-top: 0.5rem;
+}
+
+.auth-btn:hover {
+background: #A7B5FC;
+border-color: #A7B5FC;
+}
+
+.auth-footer {
+text-align: center;
+margin-top: 1.5rem;
+padding-top: 1.5rem;
+border-top: 1px solid #eee;
+}
+
+.auth-footer p {
+font-size: 0.8125rem;
+color: #666;
+}
+
+.auth-footer a {
+color: #000;
+text-decoration: none;
+font-weight: 500;
+}
+
+.auth-footer a:hover {
+text-decoration: underline;
+color: #A7B5FC;
+}
+
