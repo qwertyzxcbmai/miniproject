@@ -1,13 +1,625 @@
-{% extends "base.html" %}
-{% block content %}
-<a class="btn btn-link p-0 mb-3" href="{{ url_for('index') }}">← Назад к каталогу</a>
-<div class="card">
-  <div class="card-body">
-    <h2 class="card-title">{{ product.name }}</h2>
-    <p class="text-muted">{{ product.category }}</p>
-    <p>{{ product.description }}</p>
-    <p class="h5 mb-3">{{ product.price }} грн</p>
-    <a class="btn btn-success" href="{{ url_for('add_to_cart', product_id=product.id) }}">Добавить в корзину</a>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.product_name }} - LUNOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/5NYKSd5m/2025-08-18-132401599.png">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #fafafa;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Product Page */
+        .product-page {
+            padding: 40px 0 80px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .breadcrumb a {
+            color: #888;
+        }
+
+        .breadcrumb a:hover {
+            color: #333;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 968px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .product-gallery {
+            position: relative;
+        }
+
+        .product-main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            background-color: #f8f8f8;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-badges {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .product-badge {
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 5px;
+        }
+
+        .badge-category {
+            background-color: white;
+            color: #333;
+        }
+
+        .badge-sale {
+            background-color: #E8C8C8;
+            color: #333;
+        }
+
+        .badge-new {
+            background-color: #8A9B8B;
+            color: white;
+        }
+
+        .product-info {
+            padding: 20px 0;
+        }
+
+        .product-brand {
+            font-size: 16px;
+            font-weight: 500;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #2c2c2c;
+            line-height: 1.3;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .rating-stars {
+            color: #8A9B8B;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .rating-count {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .current-price {
+            font-weight: 700;
+            font-size: 24px;
+            color: #A7B5FC;
+        }
+
+        .original-price {
+            font-size: 18px;
+            color: #888;
+            text-decoration: line-through;
+            margin-left: 12px;
+        }
+
+        .product-description {
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .product-details {
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            min-width: 120px;
+            color: #2c2c2c;
+        }
+
+        .detail-value {
+            color: #888;
+        }
+
+        .add-to-cart-section {
+            margin-bottom: 30px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity-label {
+            margin-right: 15px;
+            font-weight: 600;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            text-align: center;
+            font-size: 16px;
+            -moz-appearance: textfield;
+        }
+
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 18px 0;
+            background-color: #A7B5FC;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(167, 181, 252, 0.3);
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #8fa1fb;
+            transform: translateY(-2px);
+        }
+
+        .product-meta {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .meta-icon {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Related Products */
+        .related-products {
+            margin-top: 60px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #2c2c2c;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-color: #f8f8f8;
+            aspect-ratio: 3/4;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.03);
+        }
+
+        .product-info-small {
+            padding: 20px;
+        }
+
+        .product-brand-small {
+            font-size: 14px;
+            font-weight: 500;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .product-title-small {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c2c2c;
+            line-height: 1.4;
+        }
+
+        .product-price-small {
+            display: flex;
+            align-items: center;
+        }
+
+        .current-price-small {
+            font-weight: 700;
+            font-size: 20px;
+            color: #A7B5FC;
+        }
+
+        .original-price-small {
+            font-size: 16px;
+            color: #888;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ddd;
+            border-top: 4px solid #A7B5FC;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="banner">
+    Free shipping on orders over $50 • Delivered in 2-5 days
 </div>
-{% endblock %}
+
+{% include 'header.html' %}
+{% if product %}
+<div class="container">
+    <div class="breadcrumb">
+        <a href="/">Home</a> / <a href="/shop">Shop</a> / <span>{{ product.product_name }}</span>
+    </div>
+
+    <div class="product-page">
+        <div class="product-container">
+            <div class="product-gallery">
+                <img src="{{ product.image_url or '/static/images/placeholder.jpg' }}"
+                     alt="{{ product.product_name }}"
+                     class="product-main-image"
+                     onerror="this.src='/static/images/placeholder.jpg'">
+
+                <div class="product-badges">
+                    {% if product.primary_category %}
+                    <span class="product-badge badge-category">{{ product.primary_category }}</span>
+                    {% endif %}
+                    {% if product.sale_price_usd and product.sale_price_usd != 'None' and product.sale_price_usd !=
+                    product.price_usd %}
+                    <span class="product-badge badge-sale">SALE</span>
+                    {% endif %}
+                    {% if product.is_new == 1 %}
+                    <span class="product-badge badge-new">NEW</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="product-info">
+                <div class="product-brand">{{ product.brand_name }}</div>
+                <h1 class="product-title">{{ product.product_name }}</h1>
+
+                {% if product.rating %}
+                <div class="product-rating">
+                    <div class="rating-stars">
+                        {% for i in range(5) %}
+                        {% if i < (product.rating|round|int) %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span class="rating-count">({{ product.reviews or 0 }} reviews)</span>
+                </div>
+                {% endif %}
+
+                <div class="product-price">
+                    {% if product.sale_price_usd and product.sale_price_usd != 'None' and product.sale_price_usd !=
+                    product.price_usd %}
+                    <span class="current-price">${{ product.sale_price_usd }}</span>
+                    <span class="original-price">${{ product.price_usd }}</span>
+                    {% else %}
+                    <span class="current-price">${{ product.price_usd }}</span>
+                    {% endif %}
+                </div>
+
+                {% if product.description %}
+                <div class="product-description">
+                    {{ product.description }}
+                </div>
+                {% endif %}
+
+                <div class="product-details">
+                    {% if product.primary_category %}
+                    <div class="detail-item">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">{{ product.primary_category }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if product.skin_type %}
+                    <div class="detail-item">
+                        <span class="detail-label">Skin Type:</span>
+                        <span class="detail-value">{{ product.skin_type }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if product.ingredients %}
+                    <div class="detail-item">
+                        <span class="detail-label">Ingredients:</span>
+                        <span class="detail-value">{{ product.ingredients }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <form action="/add_to_cart/{{ product.product_id }}" method="post">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="10">
+                    <a href="/add_to_cart/{{ product.product_id }}" class="btn-cart">Add to Cart</a>
+                </form>
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <div class="meta-icon"><i class="fas fa-truck"></i></div>
+                        <span>Free shipping on orders over $75</span>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon"><i class="fas fa-undo"></i></div>
+                        <span>30-day return policy</span>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon"><i class="fas fa-leaf"></i></div>
+                        <span>Cruelty-free & vegan formulas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+{% endif %}
+{% include 'footer.html' %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Quantity controls
+        const decreaseBtn = document.getElementById('decreaseQuantity');
+        const increaseBtn = document.getElementById('increaseQuantity');
+        const quantityInput = document.getElementById('productQuantity');
+
+        decreaseBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            if (value < 10) {
+                quantityInput.value = value + 1;
+            }
+        });
+
+        // Add to cart functionality
+        const addToCartBtn = document.getElementById('addToCart');
+        addToCartBtn.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            const quantity = parseInt(quantityInput.value);
+
+            fetch(`/add_to_cart/${productId}?quantity=${quantity}`, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Product added to cart!');
+                } else {
+                    alert('Error adding to cart');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error adding to cart');
+            });
+        });
+
+        // Load related products
+        {% if product %}
+        fetch(`/related_products?category={{ product.primary_category | urlencode }}&current_product={{ product.product_id }}`)
+            .then(response => response.json())
+            .then(products => {
+                const relatedProductsContainer = document.getElementById('relatedProducts');
+
+                if (products.length > 0) {
+                    relatedProductsContainer.innerHTML = products.map(product => `
+                        <div class="product-card">
+                            <a href="/product/${product.product_id}">
+                                <div class="product-image-container">
+                                    <img src="${product.image_url || '/static/images/placeholder.jpg'}"
+                                         alt="${product.product_name}"
+                                         class="product-image"
+                                         onerror="this.src='/static/images/placeholder.jpg'">
+                                </div>
+                                <div class="product-info-small">
+                                    <div class="product-brand-small">${product.brand_name}</div>
+                                    <h3 class="product-title-small">${product.product_name}</h3>
+                                    <div class="product-price-small">
+                                        ${product.sale_price_usd && product.sale_price_usd != 'None' && product.sale_price_usd != product.price_usd ?
+                                            `<span class="current-price-small">$${product.sale_price_usd}</span>
+                                             <span class="original-price-small">$${product.price_usd}</span>` :
+                                            `<span class="current-price-small">$${product.price_usd}</span>`
+                                        }
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `).join('');
+                } else {
+                    relatedProductsContainer.innerHTML = '<p>No related products found.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading related products:', error);
+                document.getElementById('relatedProducts').innerHTML = '<p>Error loading related products.</p>';
+            });
+        {% endif %}
+    });
+</script>
+</body>
+</html>
