@@ -9,7 +9,7 @@ import os
 import secrets
 import uvicorn
 import models
-from database import SessionLocal, engine
+from database import SessionLocal, engine, Base
 from sqlalchemy import create_engine, text
 from typing import Optional
 from datetime import datetime, timedelta
@@ -21,8 +21,7 @@ from pydantic import BaseModel
 # ===== Database setup =====
 sephora_engine = create_engine('sqlite:///sephora_products.db')
 skincare_engine = create_engine('sqlite:///skincare_sample.db')
-models.Base.metadata.create_all(bind=engine)
-
+Base.metadata.create_all(bind=engine)
 # ===== Configuration =====
 SECRET_KEY = os.getenv("SECRET_KEY", secrets.token_urlsafe(32))
 ALGORITHM = "HS256"
@@ -39,6 +38,29 @@ templates = Jinja2Templates(directory="templates")
 class CartItem(BaseModel):
     product_id: int
     quantity: int
+
+# ===== Shop =====
+@app.get("/shop", response_class=HTMLResponse)
+async def shop(request: Request, username: Optional[str] = Depends(lambda: None)):
+    try:
+        with skincare_engine.connect() as connection:
+            query = text("""
+                SELECT product_id, product_name, brand_name, price_usd, sale_price_usd, image_url
+                FROM products
+                ORDER BY RANDOM()
+                LIMIT 20
+            """)
+            result = connection.execute(query)
+            products = [dict(row._mapping) for row in result]  # исправлено для корректного доступа
+    except Exception as e:
+        print(f"Error fetching products: {e}")
+        products = []
+
+    return templates.TemplateResponse("shop.html", {
+        "request": request,
+        "username": username,
+        "products": products
+    })
 
 
 def get_cart_from_cookie(cart_cookie: Optional[str] = Cookie(None)) -> list:
@@ -342,28 +364,6 @@ async def product_detail(
         "username": username,
         "product": product
     })
-#+=========== search ====================
-@app.get("/search_products")
-async def search_products(request: Request, q: str = ""):
-    if not q or len(q) < 2:
-        return []
-
-    try:
-        with skincare_engine.connect() as connection:
-            query = text("""
-                SELECT product_id, product_name, brand_name, image_url
-                FROM products 
-                WHERE product_name LIKE :query OR brand_name LIKE :query
-                ORDER BY rating DESC, reviews DESC
-                LIMIT 5
-            """)
-            result = connection.execute(query, {"query": f"%{q}%"})
-            products = [dict(row._mapping) for row in result]
-            return products
-    except Exception as e:
-        print(f"Error searching products: {e}")
-        return []
-        
 
 
 if __name__ == "__main__":
