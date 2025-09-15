@@ -10,56 +10,129 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/css/index.css">
     <style>
-        #toTop {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+        }
+
+        .slide-content {
+            max-width: 600px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            margin-left: 10%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .slide-text {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .slide-button {
+            display: inline-block;
+            padding: 12px 30px;
             background: #A7B5FC;
             color: white;
-            border-radius: 50%;
-            padding: 12px 16px;
-            cursor: pointer;
-            display: none;
-            z-index: 1000;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        #toTop:hover {
+        .slide-button:hover {
             background: #8EA0FB;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 160, 251, 0.3);
         }
 
-        #cookieBanner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #222;
-            color: #fff;
-            padding: 15px;
-            text-align: center;
-            font-size: 14px;
-            z-index: 2000;
+        .slider-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 10px;
+            z-index: 10;
         }
 
-        #cookieBanner button {
-            padding: 8px 16px;
-            background: white;
-            color: #000;
-            border-radius: 5px;
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
+            transition: background 0.3s ease;
         }
 
-        #cookieBanner button:hover {
-            background: #f0f0f0;
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.2);
         }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .slider-arrow:hover {
+            background: white;
+        }
+
+        .slider-arrow.prev {
+            left: 20px;
+        }
+
+        .slider-arrow.next {
+            right: 20px;
+        }
+
+        .slider-arrow i {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
     </style>
 </head>
 <body>
@@ -70,6 +143,48 @@
 {% include 'header.html' %}
 
 <main>
+    <div class="slider-container">
+        <div class="slider" id="promoSlider">
+            <div class="slide" style="background-image: url('https://images.pexels.com/photos/8509197/pexels-photo-8509197.jpeg?_gl=1*9ebxxj*_ga*MTUzNTc2NjgyNC4xNzU3OTM2NTc4*_ga_8JE65Q40S6*czE3NTc5MzY1NzgkbzEkZzEkdDE3NTc5Mzc3NjkkajUyJGwwJGgw');">
+                <div class="slide-content">
+                    <h2 class="slide-title">Summer Collection 2025</h2>
+                    <p class="slide-text">Discover our new autumn skincare line with natural ingredients for radiant, hydrated skin all season long.</p>
+                    <a href="/shop?category=Skincare" class="slide-button">Shop Now</a>
+                </div>
+            </div>
+
+            <div class="slide" style="background-image: url('https://images.pexels.com/photos/8154390/pexels-photo-8154390.jpeg?_gl=1*190nth3*_ga*MTUzNTc2NjgyNC4xNzU3OTM2NTc4*_ga_8JE65Q40S6*czE3NTc5MzY1NzgkbzEkZzEkdDE3NTc5Mzc2NzQkajUzJGwwJGgw');">
+                <div class="slide-content">
+                    <h2 class="slide-title">Free Gift With Purchase</h2>
+                    <p class="slide-text">Get a free full-size serum with any order over $75. Limited time offer while supplies last.</p>
+                    <a href="/shop" class="slide-button">Claim Offer</a>
+                </div>
+            </div>
+
+            <!-- Слайд 3 -->
+            <div class="slide" style="background-image: url('https://images.pexels.com/photos/8015888/pexels-photo-8015888.jpeg?_gl=1*3t1o38*_ga*MTUzNTc2NjgyNC4xNzU3OTM2NTc4*_ga_8JE65Q40S6*czE3NTc5MzY1NzgkbzEkZzEkdDE3NTc5Mzc3MDYkajIxJGwwJGgw');">
+                <div class="slide-content">
+                    <h2 class="slide-title">New Organic Formulas</h2>
+                    <p class="slide-text">Our newly formulated products are now 100% organic and cruelty-free. Better for you, better for the planet.</p>
+                    <a href="/about" class="slide-button">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-arrow prev" id="prevSlide">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="slider-arrow next" id="nextSlide">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
+        <div class="slider-controls">
+            <div class="slider-dot active" data-index="0"></div>
+            <div class="slider-dot" data-index="1"></div>
+            <div class="slider-dot" data-index="2"></div>
+        </div>
+    </div>
+
     <section class="promo-section">
         <img src="https://i.postimg.cc/vBFXbbJb/a5eb39288b16f467b571e2b95afa1216.jpg"
              alt="LUNOR Special Offer - Sign up and save 10% on your first order"
@@ -97,7 +212,7 @@
                      loading="lazy">
                 <div class="product-info">
                     <h3 class="product-title">{{ product.product_name }}</h3>
-                    <p class="product-brand" style="font-size: 0.9em; margin-bottom: 5px; ">Herbivore Botanicals</p>
+                    <p class="product-brand" style="font-size: 0.9em; margin-bottom: 5px;">Herbivore Botanicals</p>
                     <p class="product-price">
                         {% if product.sale_price_usd and product.sale_price_usd != 'None' and product.sale_price_usd != '' %}
                         ${{ product.sale_price_usd }} <span class="original-price">${{ product.price_usd }}</span>
@@ -120,6 +235,7 @@
                         {% endif %}
                     </p>
                     <a href="/product/{{ product.product_id }}" class="product-btn">View Product</a>
+                    <a href="" class="product-btn"><i class="fa-solid fa-bag-shopping"></i></a>
                 </div>
             </article>
             {% endfor %}
@@ -139,6 +255,62 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        const slider = document.getElementById('promoSlider');
+        const totalSlides = slides.length;
+        let slideInterval;
+
+        function goToSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+
+            currentSlide = index;
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+
+            restartAutoSlide();
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                goToSlide(currentSlide + 1);
+            }, 5000);
+        }
+
+        function restartAutoSlide() {
+            clearInterval(slideInterval);
+            startAutoSlide();
+        }
+
+        document.getElementById('prevSlide').addEventListener('click', () => {
+            goToSlide(currentSlide - 1);
+        });
+
+        document.getElementById('nextSlide').addEventListener('click', () => {
+            goToSlide(currentSlide + 1);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
+        });
+
+        startAutoSlide();
+
+        slider.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            startAutoSlide();
+        });
+
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -156,7 +328,6 @@
             });
         });
 
-        // Back to top button
         const toTopBtn = document.getElementById('toTop');
 
         function toggleTopButton() {
@@ -173,7 +344,6 @@
             });
         });
 
-        // Cookie banner
         if (localStorage.getItem('cookiesAccepted')) {
             document.getElementById('cookieBanner').style.display = 'none';
         }
