@@ -8,31 +8,88 @@
     <link rel="stylesheet" href="{{ url_for('static', path='/css/about.css') }}">
     <link rel="icon" type="image/png" href="https://i.postimg.cc/5NYKSd5m/2025-08-18-132401599.png">
     <style>
-#toTop {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: #A7B5FC;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  padding: 12px 16px;
-  cursor: pointer;
-  display: none;
-}
-#toTop:hover {
-  background: #8EA0FB;
-}
+        #toTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #A7B5FC;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: none;
+        }
+        #toTop:hover {
+            background: #8EA0FB;
+        }
+        .cruelty-free-section {
+            background-color: #f9f9f9;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .cruelty-free-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cruelty-free-icon {
+            font-size: 3rem;
+            color: #A7B5FC;
+            margin-bottom: 1.5rem;
+        }
+
+        .cruelty-free-badge {
+            display: inline-block;
+            background: #A7B5FC;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 1.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .values-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .value-item {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .value-icon {
+            font-size: 2rem;
+            color: #A7B5FC;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
+
+<div class="banner">
+    Free shipping on orders over $50 • Delivered in 2-5 days
+</div>
 
 {% include 'header.html' %}
 
 <section class="welcome-section">
     <div class="welcome-text">
         <p class="h2">about us</p>
-        <p>Welcome to LUNOR, where nature’s finest ingredients inspire our carefully crafted formulas designed to
+        <p>Welcome to LUNOR, where nature's finest ingredients inspire our carefully crafted formulas designed to
             restore, protect, and illuminate your skin, body, and senses.</p>
         <div class="welcome-image">
             <img src="https://i.postimg.cc/sgyYkqzZ/2025-08-19-135710931.png">
@@ -59,6 +116,45 @@
     </div>
 </section>
 
+<section class="cruelty-free-section">
+    <div class="cruelty-free-content">
+        <div class="cruelty-free-icon">
+            <i class="fas fa-heart"></i>
+        </div>
+        <h1>Cruelty-Free Commitment</h1>
+        <div class="cruelty-free-badge">100% Cruelty-Free</div>
+        <p>At LUNOR, we believe that beauty should never come at the expense of our furry friends. We are proud to be a <strong>100% cruelty-free</strong> brand. None of our products or ingredients are tested on animals, and we never will.</p>
+
+        <div class="values-list">
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <h3>No Animal Testing</h3>
+                <p>We strictly prohibit animal testing at every stage of product development, from ingredients to final formulations.</p>
+            </div>
+
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Ethical Sourcing</h3>
+                <p>Our ingredients are responsibly sourced from suppliers who share our commitment to cruelty-free practices.</p>
+            </div>
+
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3>Third-Party Certified</h3>
+                <p>We are certified by Leaping Bunny, the gold standard for cruelty-free products worldwide.</p>
+            </div>
+        </div>
+
+        <p style="margin-top: 2rem; font-style: italic;">"Beautiful skincare shouldn't harm any living creature. That's our promise to you and to animals everywhere."</p>
+    </div>
+</section>
+
 <section class="about-section">
     <div class="about-image">
         <img src="https://i.postimg.cc/G3sBCbX4/005d9c58195c8d750a21bb031a316671.jpg" alt="LUNOR гмш">
@@ -67,7 +163,7 @@
         <h1>Where Beauty Begins</h1>
         <p>Every product is crafted with a touch of magic. Deep in our secret atelier, tiny artisans — we like to call
             them the fairies of beauty — delicately mix the finest ingredients, infusing each formula with care, energy,
-            and a whisper of nature’s charm.</p>
+            and a whisper of nature's charm.</p>
         <p>From the softest creams to aromatic oils, every bottle carries a story. The fairies ensure that each product
             nourishes, refreshes, and inspires, turning everyday rituals into extraordinary moments.</p>
         <p>Our promise is to combine science, artistry, and a sprinkle of enchantment, creating skincare and haircare
@@ -75,7 +171,6 @@
             experienced, and celebrated.</p>
     </div>
 </section>
-
 
 <section class="about-section">
     <div class="about-text">
@@ -87,28 +182,31 @@
         <h2>Phone</h2>
         <p>+1 (555) 123-4567</p>
         <h2>Address</h2>
-        <p> 45 Bloom Avenue, Los Angeles, CA 90028, USA</p>
+        <p>45 Bloom Avenue, Los Angeles, CA 90028, USA</p>
         <div class="contact-item">
             <h2>Hours</h2>
             <p>Monday-Friday: 9AM-6PM<br>Saturday: 10AM-4PM<br>Sunday: Closed</p>
         </div>
-    <p>Follow us on social media for skincare tips, new product launches, and exclusive offers!</p>
+        <p>Follow us on social media for skincare tips, new product launches, and exclusive offers!</p>
     </div>
 </section>
+
 {% include 'footer.html' %}
 
 <button id="toTop">↑</button>
 
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 <script>
-const btn = document.getElementById("toTop");
+    const btn = document.getElementById("toTop");
 
-window.addEventListener("scroll", () => {
-btn.style.display = window.scrollY > 300 ? "block" : "none";
-});
+    window.addEventListener("scroll", () => {
+        btn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
 
-btn.addEventListener("click", () => {
-window.scrollTo({ top: 0, behavior: "smooth" });
-});
+    btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
 </script>
 
 </body>
