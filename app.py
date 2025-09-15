@@ -140,35 +140,38 @@ def get_current_user_from_cookie(token: Optional[str] = Cookie(None)) -> Optiona
 async def index(request: Request, username: Optional[str] = Depends(get_current_user_from_cookie)):
     try:
         with skincare_engine.connect() as connection:
-            query = text("""
+            query1 = text("""
                 SELECT product_id, product_name, brand_name, rating, reviews, 
                        price_usd, sale_price_usd, image_url 
-                FROM products 
-                WHERE brand_name LIKE '%Herbivore%' 
-                AND rating IS NOT NULL 
-                ORDER BY rating DESC, reviews DESC 
-                LIMIT 3
+                FROM products
+                WHERE image_url IS NOT NULL
+                ORDER BY RANDOM()
+                LIMIT 12
             """)
-            result = connection.execute(query)
-            herbivore_products = [dict(row._mapping) for row in result]
+            query2 = text("""
+                SELECT product_id, product_name, brand_name, rating, reviews, 
+                       price_usd, sale_price_usd, image_url 
+                FROM products
+                WHERE image_url IS NOT NULL
+                ORDER BY RANDOM()
+                LIMIT 8
+            """)
+
+            result1 = connection.execute(query1)
+            result2 = connection.execute(query2)
+
+            random_products1 = [dict(row._mapping) for row in result1]
+            random_products2 = [dict(row._mapping) for row in result2]
     except Exception as e:
-        print(f"Error fetching Herbivore products: {e}")
-        herbivore_products = []
+        print(f"Error fetching products: {e}")
+        random_products1, random_products2 = [], []
 
     return templates.TemplateResponse("index.html", {
         "request": request,
         "username": username,
-        "herbivore_products": herbivore_products
+        "random_products1": random_products1,
+        "random_products2": random_products2
     })
-
-
-@app.get("/about", response_class=HTMLResponse)
-async def about(request: Request, username: Optional[str] = Depends(get_current_user_from_cookie)):
-    return templates.TemplateResponse("about.html", {
-        "request": request,
-        "username": username
-    })
-
 
 # ======== Cart  ========
 @app.get("/cart", response_class=HTMLResponse)
@@ -352,6 +355,12 @@ def returns(request: Request, username: Optional[str] = Depends(get_current_user
         "username": username
     })
 
+@app.get("/about", response_class=HTMLResponse)
+async def about(request: Request, username: Optional[str] = Depends(get_current_user_from_cookie)):
+    return templates.TemplateResponse("about.html", {
+        "request": request,
+        "username": username
+    })
 
 # ===== product =====
 @app.get("/product/{product_id}", response_class=HTMLResponse)
