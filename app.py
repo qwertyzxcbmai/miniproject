@@ -17,7 +17,7 @@ import bcrypt
 import jwt
 import json
 from pydantic import BaseModel
-
+from datetime import datetime, timedelta, timezone
 # ===== Database setup =====
 sephora_engine = create_engine('sqlite:///sephora_products.db')
 skincare_engine = create_engine('sqlite:///skincare_sample.db')
@@ -81,7 +81,12 @@ def set_cart_cookie(response: RedirectResponse, cart: list):
         samesite="lax"
     )
 
-
+def extract_name_from_email(email: str) -> str:
+    name_part = email.split("@")[0]
+    name_part = re.sub(r'[^A-Za-z_]', '', name_part)  
+    name_part = name_part.replace("_", " ")  
+    return name_part
+    
 # ======== DB ========
 def get_db():
     db = SessionLocal()
@@ -94,11 +99,10 @@ def get_db():
 # ======== JWT ========
 def create_jwt(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     to_encode = data.copy()
-    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire, "type": "access"})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
-
 
 def verify_password(password: str, hashed: str) -> bool:
     try:
@@ -287,10 +291,25 @@ def login(
 
 # ===== account ======
 @app.get("/account", response_class=HTMLResponse)
-def account(request: Request, username: Optional[str] = Depends(get_current_user_from_cookie)):
+def account(request: Request, db: Session = Depends(get_db),
+            username: Optional[str] = Depends(get_current_user_from_cookie)):
     if not username:
         return RedirectResponse("/login?error=not_logged_in")
-    return templates.TemplateResponse("account.html", {"request": request, "username": username})
+
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        return RedirectResponse("/login?error=not_found")
+        
+    display_name = re.sub(r'[\d_]+', ' ', user.username.split("@")[0]).title()
+
+    return templates.TemplateResponse("account.html", {
+        "request": request,
+        "username": display_name,
+        "email": user.username,
+        "country": user.country,
+        "addresses": user.addresses 
+    })
+
 
 
 # ==================
