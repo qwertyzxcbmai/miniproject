@@ -210,26 +210,27 @@ async def cart(request: Request,
     })
 
 
-@app.get("/add_to_cart/{product_id}")
-async def add_to_cart(product_id: int,
-                      response: RedirectResponse = RedirectResponse(url="/cart")):
-
-    cart_cookie = get_cart_from_cookie()
-    cart_items = cart_cookie.copy()
+норм тут всё @app.get("/add_to_cart/{product_id}")
+async def add_to_cart(
+    request: Request,
+    product_id: int
+):
+    cart_cookie = request.cookies.get("cart")
+    cart_items = get_cart_from_cookie(cart_cookie)
 
     found = False
     for item in cart_items:
-        if item['product_id'] == product_id:
-            item['quantity'] += 1
+        if item["product_id"] == product_id:
+            item["quantity"] += 1
             found = True
             break
 
     if not found:
-        cart_items.append({'product_id': product_id, 'quantity': 1})
+        cart_items.append({"product_id": product_id, "quantity": 1})
 
+    response = RedirectResponse(url="/cart", status_code=302)
     set_cart_cookie(response, cart_items)
     return response
-
 
 @app.post("/checkout")
 async def checkout(response: RedirectResponse = RedirectResponse(url="/")):
