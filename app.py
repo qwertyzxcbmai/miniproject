@@ -364,7 +364,29 @@ async def product_detail(
         "username": username,
         "product": product
     })
+    
+# ===========Error================
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    return templates.TemplateResponse(
+        "error.html",
+        {"request": request, "status_code": exc.status_code, "detail": exc.detail},
+        status_code=exc.status_code
+    )
 
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return templates.TemplateResponse(
+        "error.html",
+        {"request": request, "status_code": 422, "detail": "Validation Error"},
+        status_code=422
+    )
+
+
+@app.get("/error")
+async def error():
+    raise RuntimeError("Test server error")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8001)
