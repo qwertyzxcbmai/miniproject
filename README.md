@@ -44,8 +44,4 @@ It provides features such as product listings, user registration / login, accoun
 
 ---
 
-## Installation
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/yourusername/LUNOR.git
