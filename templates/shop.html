@@ -4,252 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop - LUNOR</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/shop.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/shop.css') }}">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/5NYKSd5m/2025-08-18-132401599.png">
 </head>
 <body>
-    <div class="banner">
-        Free shipping on orders over $50 • New customers get 15% off
-    </div>
+<div class="banner">
+    Free shipping on orders over $50 • New customers get 15% off
+</div>
+
 {% include 'header.html' %}
 
-    <main>
-        <div class="container">
-            <div class="shop-header">
-                <h1 class="shop-title">SHOP ALL</h1>
-                <p class="shop-subtitle">Discover the finest skincare products for your routine</p>
-            </div>
+<main>
+    <div class="container">
+        <div class="shop-header">
+            <h1 class="shop-title">SHOP ALL</h1>
+            <p class="shop-subtitle">Discover the finest skincare products for your routine</p>
+        </div>
 
-
-            <div class="filters-section">
-                <div class="filters-grid">
-                    <div class="filter-group">
-                        <label class="filter-label">Search</label>
-                        <input type="text" class="filter-input" placeholder="Product name..." id="searchFilter">
-                    </div>
-
-                    <div class="filter-group">
-                        <label class="filter-label">Category</label>
-                        <select class="filter-select" id="categoryFilter">
-                            <option value="">All Categories</option>
-                            {% for category in categories %}
-                            <option value="{{ category }}">{{ category }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label class="filter-label">Sort By</label>
-                        <select class="filter-select" id="sortFilter">
-                            <option value="rating">Highest Rated</option>
-                            <option value="price_low">Price: Low to High</option>
-                            <option value="price_high">Price: High to Low</option>
-                            <option value="new">New Arrivals</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label class="filter-label">Price Range</label>
-                        <select class="filter-select" id="priceFilter">
-                            <option value="">All Prices</option>
-                            <option value="0-25">Under $25</option>
-                            <option value="25-50">$25 - $50</option>
-                            <option value="50-100">$50 - $100</option>
-                            <option value="100+">Over $100</option>
-                        </select>
-                    </div>
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-input" placeholder="Product name..." id="searchFilter">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Sort By</label>
+                    <select class="filter-select" id="sortFilter">
+                        <option value="rating">Highest Rated</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                        <option value="new">New Arrivals</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Price Range</label>
+                    <select class="filter-select" id="priceFilter">
+                        <option value="">All Prices</option>
+                        <option value="0-25">Under $25</option>
+                        <option value="25-50">$25 - $50</option>
+                        <option value="50-100">$50 - $100</option>
+                        <option value="100+">Over $100</option>
+                    </select>
                 </div>
             </div>
+        </div>
 
-            {% if products %}
-            <div class="products-grid" id="productsGrid">
-                {% for product in products %}
-                <div class="product-card"
-                     data-category="{{ product.primary_category or 'Uncategorized' }}"
-                     data-rating="{{ product.rating or 0 }}"
-                     data-price="{{ product.price_usd or 0 }}"
-                     data-new="{{ product.new or 0 }}">
+        <!-- Products -->
+        {% if products %}
+        <div class="products-grid" id="productsGrid">
+            {% for product in products %}
+            <div class="product-card"
+                 data-category="{{ product.primary_category or 'Uncategorized' }}"
+                 data-rating="{{ product.rating or 0 }}"
+                 data-price="{{ product.sale_price_usd or product.price_usd or 0 }}"
+                 data-new="{{ product.new or 0 }}">
 
-                    <div class="product-image-container">
-                        <img src="{{ product.image_url or '/static/images/placeholder.jpg' }}"
-                             alt="{{ product.product_name }}"
-                             class="product-image"
-                             onerror="this.src='/static/images/placeholder.jpg'">
-
-                        <div class="product-badges">
-                            {% if product.primary_category %}
-                            <span class="product-badge badge-category">{{ product.primary_category }}</span>
-                            {% endif %}
-                            {% if product.sale_price_usd and product.sale_price_usd != 'None' %}
-                            <span class="product-badge badge-sale">SALE</span>
-                            {% endif %}
-                            {% if product.new == 1 %}
-                            <span class="product-badge badge-new">NEW</span>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-brand">{{ product.brand_name }}</div>
-                        <h3 class="product-title">{{ product.product_name }}</h3>
-
-                        {% if product.rating %}
-                        <div class="product-rating">
-                            <div class="rating-stars">
-                                {% for i in range(5) %}
-                                    {% if i < (product.rating|round|int) %}
-                                        <i class="fas fa-star"></i>
-                                    {% else %}
-                                        <i class="far fa-star"></i>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <span class="rating-count">({{ product.reviews or 0 }})</span>
-                        </div>
+                <div class="product-image-container">
+                    <img src="{{ product.image_url or '/static/images/placeholder.jpg' }}"
+                         alt="{{ product.product_name }}"
+                         class="product-image">
+                    <div class="product-badges">
+                        {% if product.primary_category %}
+                        <span class="product-badge badge-category">{{ product.primary_category }}</span>
                         {% endif %}
-
-                        <div class="product-price">
-                            {% if product.sale_price_usd and product.sale_price_usd != 'None' %}
-                            <span class="current-price">${{ product.sale_price_usd }}</span>
-                            <span class="original-price">${{ product.price_usd }}</span>
-                            {% else %}
-                            <span class="current-price">${{ product.price_usd }}</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="product-actions">
-                            <a href="/product/{{ product.product_id }}" class="btn-details">View</a>
-                            <button class="btn-cart add-to-cart"
-                                    data-product-id="{{ product.product_id }}"
-                                    data-product-name="{{ product.product_name }}">
-                                Add to Cart
-                            </button>
-                        </div>
+                        {% if product.sale_price_usd %}
+                        <span class="product-badge badge-sale">SALE</span>
+                        {% endif %}
+                        {% if product.new == 1 %}
+                        <span class="product-badge badge-new">NEW</span>
+                        {% endif %}
                     </div>
                 </div>
-                {% endfor %}
+
+                <div class="product-info">
+                    <div class="product-brand">{{ product.brand_name }}</div>
+                    <h3 class="product-title">{{ product.product_name }}</h3>
+
+                    {% if product.rating %}
+                    <div class="product-rating">
+                        <div class="rating-stars">
+                            {% for i in range(5) %}
+                            {% if i < (product.rating|round|int) %}
+                            <i class="fas fa-star"></i>
+                            {% else %}
+                            <i class="far fa-star"></i>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="rating-count">({{ product.reviews or 0 }})</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="product-price">
+                        {% if product.sale_price_usd %}
+                        <span class="current-price">${{ product.sale_price_usd }}</span>
+                        <span class="original-price">${{ product.price_usd }}</span>
+                        {% else %}
+                        <span class="current-price">${{ product.price_usd }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="product-actions">
+                        <a href="/product/{{ product.product_id }}" class="btn-details">View</a>
+                        <a href="/add_to_cart/{{ product.product_id }}" class="btn-cart">Add to Cart</a>
+                    </div>
+                </div>
             </div>
-
-            {% if total_pages > 1 %}
-            <div class="pagination">
-                {% if page > 1 %}
-                <a href="/shop?page={{ page - 1 }}" class="page-link">Previous</a>
-                {% endif %}
-
-                {% for p in range(1, total_pages + 1) %}
-                <a href="/shop?page={{ p }}" class="page-link {% if p == page %}active{% endif %}">{{ p }}</a>
-                {% endfor %}
-
-                {% if page < total_pages %}
-                <a href="/shop?page={{ page + 1 }}" class="page-link">Next</a>
-                {% endif %}
-            </div>
+            {% endfor %}
+        </div>
+        
+        {% if total_pages > 1 %}
+        <div class="pagination">
+            {% if page > 1 %}
+            <a href="/shop?page={{ page - 1 }}" class="page-link">Previous</a>
             {% endif %}
-
-            {% else %}
-            <div class="no-products">
-                <h3>No products found</h3>
-                <p>Try adjusting your filters or search terms</p>
-            </div>
+            {% for p in range(1, total_pages + 1) %}
+            <a href="/shop?page={{ p }}" class="page-link {% if p == page %}active{% endif %}">{{ p }}</a>
+            {% endfor %}
+            {% if page < total_pages %}
+            <a href="/shop?page={{ page + 1 }}" class="page-link">Next</a>
             {% endif %}
         </div>
-    </main>
+        {% endif %}
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchFilter = document.getElementById('searchFilter');
-            const categoryFilter = document.getElementById('categoryFilter');
-            const sortFilter = document.getElementById('sortFilter');
-            const priceFilter = document.getElementById('priceFilter');
-            const productCards = document.querySelectorAll('.product-card');
+        {% else %}
+        <div class="no-products">
+            <h3>No products found</h3>
+            <p>Try adjusting your filters or search terms</p>
+        </div>
+        {% endif %}
+    </div>
+</main>
 
-            function filterProducts() {
-                const searchText = searchFilter.value.toLowerCase();
-                const category = categoryFilter.value;
-                const sortBy = sortFilter.value;
-                const priceRange = priceFilter.value;
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter functionality
+        const searchFilter = document.getElementById('searchFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        const priceFilter = document.getElementById('priceFilter');
+        const productCards = document.querySelectorAll('.product-card');
 
-                let filteredProducts = Array.from(productCards).filter(card => {
-                    const productName = card.querySelector('.product-title').textContent.toLowerCase();
-                    const productCategory = card.dataset.category;
-                    const productPrice = parseFloat(card.dataset.price);
+        function filterProducts() {
+            const searchText = searchFilter.value.toLowerCase();
+            const category = categoryFilter.value;
+            const sortBy = sortFilter.value;
+            const priceRange = priceFilter.value;
 
-                    const matchesSearch = productName.includes(searchText);
+            let filtered = Array.from(productCards).filter(card => {
+                const name = card.querySelector('.product-title').textContent.toLowerCase();
+                const cat = card.dataset.category;
+                const price = parseFloat(card.dataset.price);
 
-                    const matchesCategory = !category || productCategory === category;
+                const matchesSearch = name.includes(searchText);
+                const matchesCategory = !category || cat === category;
+                let matchesPrice = true;
 
-                    let matchesPrice = true;
-                    if (priceRange) {
-                        if (priceRange === '0-25') matchesPrice = productPrice <= 25;
-                        else if (priceRange === '25-50') matchesPrice = productPrice > 25 && productPrice <= 50;
-                        else if (priceRange === '50-100') matchesPrice = productPrice > 50 && productPrice <= 100;
-                        else if (priceRange === '100+') matchesPrice = productPrice > 100;
-                    }
+                if (priceRange) {
+                    if (priceRange === '0-25') matchesPrice = price <= 25;
+                    else if (priceRange === '25-50') matchesPrice = price > 25 && price <= 50;
+                    else if (priceRange === '50-100') matchesPrice = price > 50 && price <= 100;
+                    else if (priceRange === '100+') matchesPrice = price > 100;
+                }
 
-                    return matchesSearch && matchesCategory && matchesPrice;
-                });
-
-                // Sort products
-                filteredProducts.sort((a, b) => {
-                    const ratingA = parseFloat(a.dataset.rating);
-                    const ratingB = parseFloat(b.dataset.rating);
-                    const priceA = parseFloat(a.dataset.price);
-                    const priceB = parseFloat(b.dataset.price);
-                    const newA = parseInt(a.dataset.new);
-                    const newB = parseInt(b.dataset.new);
-
-                    switch(sortBy) {
-                        case 'rating':
-                            return ratingB - ratingA;
-                        case 'price_low':
-                            return priceA - priceB;
-                        case 'price_high':
-                            return priceB - priceA;
-                        case 'new':
-                            return newB - newA;
-                        default:
-                            return 0;
-                    }
-                });
-
-
-                productCards.forEach(card => card.style.display = 'none');
-
-
-                filteredProducts.forEach(card => card.style.display = 'block');
-            }
-
-
-            searchFilter.addEventListener('input', filterProducts);
-            categoryFilter.addEventListener('change', filterProducts);
-            sortFilter.addEventListener('change', filterProducts);
-            priceFilter.addEventListener('change', filterProducts);
-
-
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function() {
-                    const productId = this.dataset.productId;
-                    const productName = this.dataset.productName;
-
-                    fetch(`/add_to_cart/${productId}`, {
-                        method: 'GET'
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            alert(`"${productName}" added to cart!`);
-                        } else {
-                            alert('Error adding to cart');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error adding to cart');
-                    });
-                });
+                return matchesSearch && matchesCategory && matchesPrice;
             });
 
-            const headerSearch = document.getElementById('searchInput');
+            // Sort
+            filtered.sort((a, b) => {
+                const ratingA = parseFloat(a.dataset.rating);
+                const ratingB = parseFloat(b.dataset.rating);
+                const priceA = parseFloat(a.dataset.price);
+                const priceB = parseFloat(b.dataset.price);
+                const newA = parseInt(a.dataset.new);
+                const newB = parseInt(b.dataset.new);
+
+                switch(sortBy) {
+                    case 'rating': return ratingB - ratingA;
+                    case 'price_low': return priceA - priceB;
+                    case 'price_high': return priceB - priceA;
+                    case 'new': return newB - newA;
+                    default: return 0;
+                }
+            });
+
+            // Show filtered
+            productCards.forEach(card => card.style.display = 'none');
+            filtered.forEach(card => card.style.display = 'block');
+        }
+
+        searchFilter.addEventListener('input', filterProducts);
+        categoryFilter.addEventListener('change', filterProducts);
+        sortFilter.addEventListener('change', filterProducts);
+        priceFilter.addEventListener('change', filterProducts);
+
+        // Add to cart
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                const productName = this.dataset.productName;
+
+                fetch(`/add_to_cart/${productId}`)
+                    .then(res => {
+                        if (res.ok) alert(`"${productName}" added to cart!`);
+                        else alert('Error adding to cart');
+                    })
+                    .catch(() => alert('Error adding to cart'));
+            });
+        });
+
+        // Header search (if you have one)
+        const headerSearch = document.getElementById('searchInput');
+        if (headerSearch) {
             headerSearch.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     searchFilter.value = this.value;
@@ -257,8 +236,8 @@
                     window.scrollTo({ top: document.querySelector('.filters-section').offsetTop - 100, behavior: 'smooth' });
                 }
             });
-        });
-    </script>
+        }
+    });
+</script>
 </body>
-
 </html>
