@@ -209,8 +209,7 @@ async def cart(request: Request,
         "items": items
     })
 
-
-норм тут всё @app.get("/add_to_cart/{product_id}")
+@app.get("/add_to_cart/{product_id}")
 async def add_to_cart(
     request: Request,
     product_id: int
