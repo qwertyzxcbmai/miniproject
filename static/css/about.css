@@ -80,3 +80,56 @@ margin-top: 80px;
 .h2{
 color: #252222;
 }
+.cruelty-free-section {
+background-color: #f9f9f9;
+padding: 4rem 2rem;
+text-align: center;
+margin: 3rem 0;
+}
+
+.cruelty-free-content {
+max-width: 800px;
+margin: 0 auto;
+}
+
+.cruelty-free-icon {
+font-size: 3rem;
+color: #A7B5FC;
+margin-bottom: 1.5rem;
+}
+
+.cruelty-free-badge {
+display: inline-block;
+background: #A7B5FC;
+color: white;
+padding: 0.5rem 1.5rem;
+border-radius: 30px;
+font-weight: 600;
+margin: 1.5rem 0;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-size: 0.9rem;
+}
+
+.values-list {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 2rem;
+margin-top: 2rem;
+}
+
+.value-item {
+flex: 1;
+min-width: 250px;
+background: white;
+padding: 2rem;
+border-radius: 10px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.value-icon {
+font-size: 2rem;
+color: #A7B5FC;
+margin-bottom: 1rem;
+}
