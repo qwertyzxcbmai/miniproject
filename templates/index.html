@@ -147,7 +147,7 @@
         <div class="slider" id="promoSlider">
             <div class="slide" style="background-image: url('https://images.pexels.com/photos/8509197/pexels-photo-8509197.jpeg?_gl=1*9ebxxj*_ga*MTUzNTc2NjgyNC4xNzU3OTM2NTc4*_ga_8JE65Q40S6*czE3NTc5MzY1NzgkbzEkZzEkdDE3NTc5Mzc3NjkkajUyJGwwJGgw');">
                 <div class="slide-content">
-                    <h2 class="slide-title">Summer Collection 2025</h2>
+                    <h2 class="slide-title">Autumn Collection 2025</h2>
                     <p class="slide-text">Discover our new autumn skincare line with natural ingredients for radiant, hydrated skin all season long.</p>
                     <a href="/shop?category=Skincare" class="slide-button">Shop Now</a>
                 </div>
@@ -183,7 +183,48 @@
             <div class="slider-dot" data-index="2"></div>
         </div>
     </div>
-
+<section class="products-section container">
+    <h2 class="section-title">Top Picks</h2>
+    <div class="products-grid">
+        {% for product in random_products1 %}
+        <article class="product-card">
+            <img src="{{ product.image_url }}"
+                 alt="{{ product.product_name }}"
+                 class="product-image"
+                 loading="lazy">
+            <div class="product-info">
+                <h3 class="product-title">{{ product.product_name }}</h3>
+                <p class="product-brand" style="font-size: 0.9em; margin-bottom: 5px;">
+                    {{ product.brand_name }}
+                </p>
+                <p class="product-price">
+                    {% if product.sale_price_usd and product.sale_price_usd != 'None' and product.sale_price_usd != '' %}
+                        ${{ product.sale_price_usd }} <span class="original-price">${{ product.price_usd }}</span>
+                    {% else %}
+                        ${{ product.price_usd }}
+                    {% endif %}
+                </p>
+                <p class="product-rating">
+                    {% if product.rating %}
+                        {% for i in range(5) %}
+                            {% if i < product.rating|int %}
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        ({{ product.reviews or 0 }} reviews)
+                    {% else %}
+                        <span>No ratings yet</span>
+                    {% endif %}
+                </p>
+                <a href="/product/{{ product.product_id }}" class="product-btn">View Product</a>
+                <a href="" class="product-btn"><i class="fa-solid fa-bag-shopping"></i></a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
     <section class="promo-section">
         <img src="https://i.postimg.cc/vBFXbbJb/a5eb39288b16f467b571e2b95afa1216.jpg"
              alt="LUNOR Special Offer - Sign up and save 10% on your first order"
@@ -200,46 +241,50 @@
         </div>
     </section>
 
-    <section class="products-section container">
-        <h2 class="section-title">Top Picks</h2>
-        <div class="products-grid">
-            {% for product in herbivore_products %}
-            <article class="product-card">
-                <img src="{{ product.image_url }}"
-                     alt="{{ product.product_name }}"
-                     class="product-image"
-                     loading="lazy">
-                <div class="product-info">
-                    <h3 class="product-title">{{ product.product_name }}</h3>
-                    <p class="product-brand" style="font-size: 0.9em; margin-bottom: 5px;">Herbivore Botanicals</p>
-                    <p class="product-price">
-                        {% if product.sale_price_usd and product.sale_price_usd != 'None' and product.sale_price_usd != '' %}
+<section class="products-section container">
+    <h2 class="section-title">Top Picks</h2>
+    <div class="products-grid">
+        {% for product in random_products2 %}
+        <article class="product-card">
+            <img src="{{ product.image_url }}"
+                 alt="{{ product.product_name }}"
+                 class="product-image"
+                 loading="lazy">
+            <div class="product-info">
+                <h3 class="product-title">{{ product.product_name }}</h3>
+                <p class="product-brand" style="font-size: 0.9em; margin-bottom: 5px;">
+                    {{ product.brand_name }}
+                </p>
+                <p class="product-price">
+                    {% if product.sale_price_usd and product.sale_price_usd != 'None' and product.sale_price_usd != '' %}
                         ${{ product.sale_price_usd }} <span class="original-price">${{ product.price_usd }}</span>
-                        {% else %}
+                    {% else %}
                         ${{ product.price_usd }}
-                        {% endif %}
-                    </p>
-                    <p class="product-rating" style="">
-                        {% if product.rating %}
+                    {% endif %}
+                </p>
+                <p class="product-rating">
+                    {% if product.rating %}
                         {% for i in range(5) %}
-                        {% if i < product.rating|int %}
-                        <i class="fas fa-star" style="color: #ffc107;"></i>
-                        {% else %}
-                        <i class="far fa-star"></i>
-                        {% endif %}
+                            {% if i < product.rating|int %}
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
                         {% endfor %}
                         ({{ product.reviews or 0 }} reviews)
-                        {% else %}
+                    {% else %}
                         <span>No ratings yet</span>
-                        {% endif %}
-                    </p>
-                    <a href="/product/{{ product.product_id }}" class="product-btn">View Product</a>
-                    <a href="" class="product-btn"><i class="fa-solid fa-bag-shopping"></i></a>
-                </div>
-            </article>
-            {% endfor %}
-        </div>
-    </section>
+                    {% endif %}
+                </p>
+                <a href="/product/{{ product.product_id }}" class="product-btn">View Product</a>
+                <a href="" class="product-btn"><i class="fa-solid fa-bag-shopping"></i></a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+
 </main>
 
 {% include 'footer.html' %}
